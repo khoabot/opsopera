@@ -101,6 +101,53 @@ const concepts = [
     tags: ["Playful", "Sequencer", "Audio", "Memphis"],
     darkText: true,
   },
+  {
+    id: 7,
+    title: "The Vinyl",
+    subtitle: "Radial & Exploratory",
+    description:
+      "No scrolling at all. A spinning vinyl record fills the screen and IS the navigation — click tracks on the record to reveal content in slide-out panels. Tonearm animates between sections. Warm analog aesthetic with wood grain textures. A completely non-linear experience.",
+    href: "/concept7",
+    gradient: "from-[#1a1612] to-[#0a0808]",
+    accentColor: "#E07A5F",
+    textColor: "text-amber-200",
+    borderColor: "border-[#E07A5F]/30",
+    hoverBorder: "hover:border-[#E07A5F]/60",
+    notes: ["𝄞", "♫"],
+    tags: ["No-Scroll", "Radial", "Analog", "Audio"],
+  },
+  {
+    id: 8,
+    title: "The Score",
+    subtitle: "Horizontal & Sequential",
+    description:
+      "The entire page scrolls horizontally like reading a musical score left-to-right. Content is arranged in 'measures' with bar lines, time signatures, tempo markings, and actual musical notation for each section. Scroll vertically to move the 'playhead' across the score.",
+    href: "/concept8",
+    gradient: "from-[#F5F0E8] to-[#FFFEF5]",
+    accentColor: "#E07A5F",
+    textColor: "text-[#2C1810]",
+    borderColor: "border-[#D4C5B0]/50",
+    hoverBorder: "hover:border-[#E07A5F]/60",
+    notes: ["♪", "♬"],
+    tags: ["Horizontal", "Sequential", "Manuscript", "Audio"],
+    darkText: true,
+  },
+  {
+    id: 9,
+    title: "The Mosaic",
+    subtitle: "Bento Grid & Dense",
+    description:
+      "Everything visible at once on a single screen — an asymmetric bento grid of 12 tiles. No hero, no scroll, no linear flow. Click any tile to expand it. Includes an interactive piano tile, a melody player tile, stat tiles, and feature tiles. Information-dense and exploratory.",
+    href: "/concept9",
+    gradient: "from-[#f0ede6] to-[#f8f6f1]",
+    accentColor: "#1a1a2e",
+    textColor: "text-[#2C1810]",
+    borderColor: "border-[#2C1810]/20",
+    hoverBorder: "hover:border-[#E07A5F]/60",
+    notes: ["♩", "♪"],
+    tags: ["Bento", "No-Scroll", "Dense", "Audio"],
+    darkText: true,
+  },
 ];
 
 export default function ConceptPicker() {
@@ -173,10 +220,10 @@ export default function ConceptPicker() {
           transition={{ delay: 1 }}
         >
           <p className="text-white/40 leading-relaxed">
-            Six brand concepts for an AI-powered B2B SaaS that orchestrates
+            Nine brand concepts for an AI-powered B2B SaaS that orchestrates
             business operations. Each takes the &quot;ops + opera&quot; theme in a different
-            creative direction. Concepts 4–6 feature real synthesized audio —
-            play piano, trigger beats, and hear classical melodies.
+            creative direction. Concepts 4–9 feature real synthesized audio.
+            7–9 break conventional layouts entirely: vinyl record nav, horizontal scrolling, and bento grids.
           </p>
         </motion.div>
       </header>
@@ -297,7 +344,7 @@ export default function ConceptPicker() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 py-8 px-6 text-center">
         <p className="text-white/20 text-sm">
-          OpsOpera Brand Exploration — Six concepts, one vision. 🔊 Concepts 4–6 have sound!
+          OpsOpera Brand Exploration — Nine concepts, one vision. 🔊 4–9 have sound!
         </p>
         <div className="mt-3 flex justify-center gap-3 text-white/10 text-xl">
           {["♩", "♪", "♫", "♬", "𝄞"].map((n, i) => (

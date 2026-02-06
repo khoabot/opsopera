@@ -148,6 +148,51 @@ const concepts = [
     tags: ["Bento", "No-Scroll", "Dense", "Audio"],
     darkText: true,
   },
+  {
+    id: 10,
+    title: "Opening Night",
+    subtitle: "Theatrical Stage Experience",
+    description:
+      "A literal proscenium arch frames the viewport. Red velvet curtains part on page load. Content performs as 'scenes' on a stage with footlights, wing curtains, backdrop changes, and spotlight beams. Scroll through five acts. The most theatrical concept.",
+    href: "/concept10",
+    gradient: "from-[#1a0a2e] to-[#0a0515]",
+    accentColor: "#D4AF37",
+    textColor: "text-[#FFF8E7]",
+    borderColor: "border-[#D4AF37]/30",
+    hoverBorder: "hover:border-[#D4AF37]/60",
+    notes: ["𝄞", "♫"],
+    tags: ["Theatre", "Curtains", "Stage", "Immersive"],
+  },
+  {
+    id: 11,
+    title: "The Playbill",
+    subtitle: "Opera House Program",
+    description:
+      "Designed like a real opera playbill. Stacked cream-colored pages with gold leaf edges peel away as you scroll. Director's note, 'Tonight's Cast' listing features as performers, synopsis in three acts, press reviews, and ticket pricing. Pure editorial typography.",
+    href: "/concept11",
+    gradient: "from-[#2a1a10] to-[#1a0a08]",
+    accentColor: "#D4AF37",
+    textColor: "text-[#FFF8E7]",
+    borderColor: "border-[#D4AF37]/30",
+    hoverBorder: "hover:border-[#D4AF37]/60",
+    notes: ["♩", "♪"],
+    tags: ["Editorial", "Print", "Classical", "Typography"],
+  },
+  {
+    id: 12,
+    title: "Prima Donna",
+    subtitle: "Cinematic & Modern",
+    description:
+      "Full-bleed cinematic sections with single words filling the entire viewport. Extreme breathing room, slow dramatic reveals, and opera glass motifs. Where classical opera house drama meets modern luxury branding — Apple keynote energy meets La Scala.",
+    href: "/concept12",
+    gradient: "from-[#12100e] to-[#0a0808]",
+    accentColor: "#D4AF37",
+    textColor: "text-[#FFF8E7]",
+    borderColor: "border-[#D4AF37]/30",
+    hoverBorder: "hover:border-[#D4AF37]/60",
+    notes: ["𝄞", "♬"],
+    tags: ["Cinematic", "Modern", "Luxury", "Dramatic"],
+  },
 ];
 
 export default function ConceptPicker() {
@@ -220,10 +265,10 @@ export default function ConceptPicker() {
           transition={{ delay: 1 }}
         >
           <p className="text-white/40 leading-relaxed">
-            Nine brand concepts for an AI-powered B2B SaaS that orchestrates
-            business operations. Each takes the &quot;ops + opera&quot; theme in a different
-            creative direction. Concepts 4–9 feature real synthesized audio.
-            7–9 break conventional layouts entirely: vinyl record nav, horizontal scrolling, and bento grids.
+            Twelve brand concepts for OpsOpera. 1–3 are visual themes.
+            4–6 add synthesized audio. 7–9 break layout conventions entirely.
+            10–12 go deep into the opera/theatre metaphor — curtains, stages,
+            playbills, and cinematic drama.
           </p>
         </motion.div>
       </header>
@@ -344,7 +389,7 @@ export default function ConceptPicker() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 py-8 px-6 text-center">
         <p className="text-white/20 text-sm">
-          OpsOpera Brand Exploration — Nine concepts, one vision. 🔊 4–9 have sound!
+          OpsOpera Brand Exploration — Twelve concepts, one vision.
         </p>
         <div className="mt-3 flex justify-center gap-3 text-white/10 text-xl">
           {["♩", "♪", "♫", "♬", "𝄞"].map((n, i) => (

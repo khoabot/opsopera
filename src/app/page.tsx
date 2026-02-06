@@ -1,0 +1,269 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from "next/link";
+import { MusicWaveform } from "@/components/MusicNotes";
+
+const NOTE_SYMBOLS = ["♩", "♪", "♫", "♬", "𝄞", "𝄢"];
+
+const concepts = [
+  {
+    id: 1,
+    title: "Grand Opera",
+    subtitle: "Dramatic & Theatrical",
+    description:
+      "Rich crimson and gold. Velvet curtain reveals. Ornamental borders. The elegance of a grand opera house meets enterprise-grade SaaS. Serif typography, dramatic animations, and a theatrical experience that makes business feel like art.",
+    href: "/concept1",
+    gradient: "from-[#4A0020] to-[#1A0011]",
+    accentColor: "#D4AF37",
+    textColor: "text-[#FFF8E7]",
+    borderColor: "border-[#D4AF37]/30",
+    hoverBorder: "hover:border-[#D4AF37]/60",
+    notes: ["𝄞", "♫"],
+    tags: ["Theatrical", "Luxurious", "Bold"],
+  },
+  {
+    id: 2,
+    title: "Jazz Lounge",
+    subtitle: "Modern & Electric",
+    description:
+      "Deep blues and purples with neon accents. Beat grid visualizations. Smooth animations with electric energy. Think late-night jazz club meets cutting-edge tech — where every click has rhythm and every interaction drops a beat.",
+    href: "/concept2",
+    gradient: "from-[#1A1A3E] to-[#0B0B1A]",
+    accentColor: "#FF2D78",
+    secondaryAccent: "#00D4FF",
+    textColor: "text-white",
+    borderColor: "border-[#FF2D78]/30",
+    hoverBorder: "hover:border-[#FF2D78]/60",
+    notes: ["♪", "♬"],
+    tags: ["Electric", "Bold", "Playful"],
+  },
+  {
+    id: 3,
+    title: "Sheet Music",
+    subtitle: "Warm & Whimsical",
+    description:
+      "Cream and warm earth tones. Musical staff lines as design elements. Hand-drawn underlines and soft rounded shapes. A warm, approachable, and delightful experience — like opening a beloved book of sheet music.",
+    href: "/concept3",
+    gradient: "from-[#F5F0E8] to-[#FFFEF5]",
+    accentColor: "#E07A5F",
+    textColor: "text-[#2C1810]",
+    borderColor: "border-[#D4C5B0]/50",
+    hoverBorder: "hover:border-[#E07A5F]/60",
+    notes: ["♩", "♫"],
+    tags: ["Warm", "Friendly", "Delightful"],
+    darkText: true,
+  },
+];
+
+export default function ConceptPicker() {
+  const [hoveredConcept, setHoveredConcept] = useState<number | null>(null);
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+      {/* Background floating notes */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        {NOTE_SYMBOLS.map((note, i) => (
+          <motion.span
+            key={i}
+            className="absolute text-3xl opacity-[0.04]"
+            style={{
+              left: `${10 + i * 15}%`,
+              top: `${15 + (i % 3) * 30}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              rotate: [0, 15, -15, 0],
+              opacity: [0.03, 0.07, 0.03],
+            }}
+            transition={{
+              duration: 6 + i * 2,
+              repeat: Infinity,
+              delay: i * 0.8,
+            }}
+          >
+            {note}
+          </motion.span>
+        ))}
+      </div>
+
+      {/* Header */}
+      <header className="relative z-10 pt-16 pb-12 px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+            <span className="bg-gradient-to-r from-[#D4AF37] via-[#FF2D78] to-[#E07A5F] bg-clip-text text-transparent">
+              OpsOpera
+            </span>
+          </h1>
+          <motion.p
+            className="mt-4 text-xl md:text-2xl text-white/50 italic"
+            style={{ fontFamily: "Georgia, serif" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            Make Your Business Operations Sing
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          className="mt-8 flex justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <MusicWaveform color="#ffffff30" barCount={32} />
+        </motion.div>
+
+        <motion.div
+          className="mt-8 max-w-2xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
+          <p className="text-white/40 leading-relaxed">
+            Three brand concepts for an AI-powered B2B SaaS that orchestrates
+            business operations. Each takes the &quot;ops + opera&quot; theme in a different
+            creative direction. Click any card to explore the full experience.
+          </p>
+        </motion.div>
+      </header>
+
+      {/* Concept Cards */}
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
+        <div className="grid gap-8 md:gap-10">
+          {concepts.map((concept, i) => (
+            <motion.div
+              key={concept.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.2, duration: 0.6 }}
+            >
+              <Link href={concept.href}>
+                <motion.div
+                  className={`group relative rounded-2xl border ${concept.borderColor} ${concept.hoverBorder} overflow-hidden cursor-pointer transition-all`}
+                  onMouseEnter={() => setHoveredConcept(concept.id)}
+                  onMouseLeave={() => setHoveredConcept(null)}
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  {/* Background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${concept.gradient} opacity-90`} />
+
+                  {/* Hover glow */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: `radial-gradient(600px circle at 50% 50%, ${concept.accentColor}10, transparent 70%)`,
+                    }}
+                  />
+
+                  <div className={`relative z-10 p-8 md:p-12 ${concept.textColor}`}>
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span
+                            className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                            style={{
+                              color: concept.accentColor,
+                              backgroundColor: `${concept.accentColor}15`,
+                              border: `1px solid ${concept.accentColor}30`,
+                            }}
+                          >
+                            Concept {concept.id}
+                          </span>
+                          <div className="flex gap-1 text-xl opacity-40">
+                            {concept.notes.map((n, j) => (
+                              <motion.span
+                                key={j}
+                                animate={
+                                  hoveredConcept === concept.id
+                                    ? { y: [0, -5, 0], rotate: [0, 10, -10, 0] }
+                                    : {}
+                                }
+                                transition={{ duration: 1, delay: j * 0.2 }}
+                              >
+                                {n}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <h2
+                          className="text-3xl md:text-4xl font-bold mb-1"
+                          style={{ fontFamily: "Georgia, serif" }}
+                        >
+                          {concept.title}
+                        </h2>
+                        <p
+                          className="text-lg opacity-60 mb-4"
+                          style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
+                        >
+                          {concept.subtitle}
+                        </p>
+                        <p className={`opacity-50 leading-relaxed max-w-xl ${concept.darkText ? "text-[#2C1810]/60" : ""}`}>
+                          {concept.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {concept.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-xs px-2 py-1 rounded-full opacity-50"
+                              style={{
+                                border: `1px solid ${concept.accentColor}40`,
+                                color: concept.accentColor,
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <motion.div
+                        className="flex-shrink-0 flex items-center gap-2 font-medium"
+                        style={{ color: concept.accentColor }}
+                        animate={
+                          hoveredConcept === concept.id
+                            ? { x: [0, 5, 0] }
+                            : {}
+                        }
+                        transition={{ duration: 0.8, repeat: hoveredConcept === concept.id ? Infinity : 0 }}
+                      >
+                        Explore →
+                      </motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/5 py-8 px-6 text-center">
+        <p className="text-white/20 text-sm">
+          OpsOpera Brand Exploration — Three concepts, one vision.
+        </p>
+        <div className="mt-3 flex justify-center gap-3 text-white/10 text-xl">
+          {["♩", "♪", "♫", "♬", "𝄞"].map((n, i) => (
+            <motion.span
+              key={i}
+              whileHover={{ scale: 1.5, opacity: 0.4 }}
+              className="cursor-pointer"
+            >
+              {n}
+            </motion.span>
+          ))}
+        </div>
+      </footer>
+    </div>
+  );
+}

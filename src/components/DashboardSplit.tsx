@@ -1,14 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import {
   LayoutDashboard, Workflow, BarChart3, Settings, Bell, Search,
   Plus, Play, Pause, CheckCircle2, Clock, AlertTriangle, ArrowUpRight,
   ArrowDownRight, Zap, Users, Activity, ArrowLeft, ChevronRight,
-  GripVertical, ArrowRight,
+  GripVertical, ArrowRight, Menu, X, Music,
 } from "lucide-react";
 import { DashboardTheme } from "./DashboardShell";
+import { HoverNotes, AmbientNotes, MiniWaveform } from "./DashboardMusic";
 
 /* ─── Mock Data ────────────────────────────────────────────────────── */
 const FEATURED_WORKFLOW = {
@@ -37,10 +38,10 @@ const WORKFLOWS = [
 ];
 
 const STATS = [
-  { label: "Active", value: "24", icon: Workflow, color: "#22c55e" },
+  { label: "Active", value: "24", icon: Workflow, color: "#4ade80" },
   { label: "Runs Today", value: "1.8K", icon: Zap, color: "#3b82f6" },
   { label: "Team", value: "8", icon: Users, color: "#a855f7" },
-  { label: "Uptime", value: "99.9%", icon: Activity, color: "#f59e0b" },
+  { label: "Uptime", value: "99.9%", icon: Activity, color: "#facc15" },
 ];
 
 const ACTIVITY = [
@@ -61,12 +62,16 @@ const NAV_ITEMS = [
 /* ─── Split Panel Dashboard ────────────────────────────────────────── */
 export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
   const [activeNav, setActiveNav] = useState("Dashboard");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ff = theme.fontFamily || "system-ui, sans-serif";
   const cardBr = theme.cardStyle === "pill" ? "16px" : theme.cardStyle === "sharp" ? "2px" : "8px";
 
   return (
     <div className="min-h-screen flex" style={{ background: theme.bg, color: theme.text, fontFamily: ff }}>
-      {/* ─── SIDEBAR ─── */}
+      {/* Ambient music notes */}
+      {theme.showMusicNotes && <AmbientNotes color={theme.accent} count={6} />}
+
+      {/* ─── SIDEBAR (desktop only) ─── */}
       <aside className="hidden lg:flex flex-col w-56 shrink-0 border-r"
         style={{ background: theme.sidebarBg || theme.bgSecondary, borderColor: theme.border }}>
         <div className="p-5 border-b" style={{ borderColor: theme.border }}>
@@ -76,9 +81,10 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
           </a>
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 flex items-center justify-center" style={{ background: theme.accent, borderRadius: cardBr }}>
-              <span className="text-xs font-bold" style={{ color: theme.bg }}>O</span>
+              <Music className="w-3.5 h-3.5" style={{ color: theme.bg }} />
             </div>
             <span className="font-bold" style={{ color: theme.text }}>OpsOpera</span>
+            <MiniWaveform color={theme.accent} bars={3} height={10} />
           </div>
         </div>
 
@@ -110,13 +116,77 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
 
       {/* ─── MAIN AREA ─── */}
       <div className="flex-1 flex flex-col min-h-screen">
-        {/* Header */}
-        <header className="px-4 md:px-6 py-4 flex items-center justify-between border-b" style={{ borderColor: theme.border }}>
+        {/* Mobile header with hamburger (lg:hidden) */}
+        <header className="lg:hidden px-4 py-3 flex items-center justify-between border-b sticky top-0 z-30"
+          style={{ background: `${theme.bg}f0`, borderColor: theme.border, backdropFilter: "blur(16px)" }}>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-1">
+              {mobileMenuOpen
+                ? <X className="w-5 h-5" style={{ color: theme.text }} />
+                : <Menu className="w-5 h-5" style={{ color: theme.text }} />}
+            </button>
+            <div className="w-7 h-7 flex items-center justify-center" style={{ background: theme.accent, borderRadius: cardBr }}>
+              <Music className="w-3.5 h-3.5" style={{ color: theme.bg }} />
+            </div>
+            <span className="font-bold text-sm" style={{ color: theme.text }}>OpsOpera</span>
+            <MiniWaveform color={theme.accent} bars={3} height={10} />
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="relative p-1.5" style={{ color: theme.textMuted }}>
+              <Bell className="w-4 h-4" />
+              <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full" style={{ background: theme.accent }} />
+            </button>
+            <div className="w-7 h-7 flex items-center justify-center text-xs font-bold"
+              style={{ background: `${theme.accent}20`, color: theme.accent, borderRadius: "50%" }}>JD</div>
+          </div>
+        </header>
+
+        {/* Mobile dropdown nav */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="lg:hidden border-b overflow-hidden z-20 sticky top-[53px]"
+              style={{ background: theme.sidebarBg || theme.bgSecondary, borderColor: theme.border }}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <nav className="p-3 space-y-1">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = item.label === activeNav;
+                  return (
+                    <button key={item.label}
+                      onClick={() => { setActiveNav(item.label); setMobileMenuOpen(false); }}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 text-sm transition-all"
+                      style={{
+                        borderRadius: cardBr,
+                        background: isActive ? `${theme.accent}15` : "transparent",
+                        color: isActive ? theme.accent : theme.textMuted,
+                      }}>
+                      <item.icon className="w-4 h-4" />
+                      {item.label}
+                    </button>
+                  );
+                })}
+                <a href={`/concept${theme.conceptNum}`}
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm"
+                  style={{ color: theme.textMuted }}>
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to landing
+                </a>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Desktop header (visible only on lg+) */}
+        <header className="hidden lg:flex px-4 md:px-6 py-4 items-center justify-between border-b" style={{ borderColor: theme.border }}>
           <div className="flex items-center gap-3">
             <h1 className="text-lg font-bold">Dashboard</h1>
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden md:flex relative">
+            <div className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: theme.textFaint }} />
               <input type="text" placeholder="Search..." className="pl-8 pr-3 py-1.5 text-xs border outline-none w-48"
                 style={{ background: theme.bgSecondary, borderColor: theme.border, color: theme.text, borderRadius: cardBr }} />
@@ -147,8 +217,8 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
             <div className="p-5 border mb-4" style={{ background: `${theme.accent}08`, borderColor: `${theme.accent}25`, borderRadius: cardBr }}>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-bold" style={{ color: theme.text }}>{FEATURED_WORKFLOW.name}</h3>
-                <span className="text-[10px] px-2 py-0.5 bg-emerald-500/15 text-emerald-400 uppercase tracking-wider"
-                  style={{ borderRadius: "999px" }}>Active</span>
+                <span className="text-[10px] px-2 py-0.5 uppercase tracking-wider"
+                  style={{ background: "rgba(74,222,128,0.15)", color: "#4ade80", borderRadius: "999px" }}>Active</span>
               </div>
               <p className="text-xs mb-4" style={{ color: theme.textMuted }}>{FEATURED_WORKFLOW.description}</p>
 
@@ -172,7 +242,7 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
 
               <div className="flex items-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: theme.border }}>
                 <span className="text-xs" style={{ color: theme.textMuted }}>{FEATURED_WORKFLOW.runs} runs</span>
-                <span className="text-xs text-emerald-400">{FEATURED_WORKFLOW.success}% success</span>
+                <span className="text-xs" style={{ color: "#4ade80" }}>{FEATURED_WORKFLOW.success}% success</span>
               </div>
             </div>
 
@@ -180,17 +250,19 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
             <h3 className="text-xs font-semibold mb-2" style={{ color: theme.textMuted }}>Other Workflows</h3>
             <div className="space-y-1">
               {WORKFLOWS.map((wf) => {
-                const statusColors: Record<string, string> = { active: "#22c55e", paused: "#eab308", error: "#ef4444" };
+                const statusColors: Record<string, string> = { active: "#4ade80", paused: "#facc15", error: "#f87171" };
                 return (
-                  <div key={wf.name} className="flex items-center gap-2 py-2 px-2 -mx-2 cursor-pointer transition-colors"
-                    style={{ borderRadius: cardBr }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = `${theme.accent}08`)}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: statusColors[wf.status] }} />
-                    <span className="text-sm flex-1" style={{ color: theme.text }}>{wf.name}</span>
-                    <span className="text-[10px]" style={{ color: theme.textFaint }}>{wf.lastRun}</span>
-                    <ChevronRight className="w-3 h-3" style={{ color: theme.textFaint }} />
-                  </div>
+                  <HoverNotes key={wf.name} color={theme.accent}>
+                    <div className="flex items-center gap-2 py-2 px-2 -mx-2 cursor-pointer transition-colors"
+                      style={{ borderRadius: cardBr }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = `${theme.accent}08`)}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
+                      <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: statusColors[wf.status] }} />
+                      <span className="text-sm flex-1" style={{ color: theme.text }}>{wf.name}</span>
+                      <span className="text-[10px]" style={{ color: theme.textFaint }}>{wf.lastRun}</span>
+                      <ChevronRight className="w-3 h-3" style={{ color: theme.textFaint }} />
+                    </div>
+                  </HoverNotes>
                 );
               })}
             </div>
@@ -201,13 +273,15 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
             {/* Stat chips */}
             <div className="flex flex-wrap gap-3">
               {STATS.map((s, i) => (
-                <motion.div key={s.label} className="flex-1 min-w-[120px] p-3 border text-center"
-                  style={{ background: theme.bgCard, borderColor: theme.border, borderRadius: cardBr }}
-                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-                  <s.icon className="w-4 h-4 mx-auto mb-1" style={{ color: s.color }} />
-                  <div className="text-lg font-bold">{s.value}</div>
-                  <div className="text-[9px] uppercase tracking-wider" style={{ color: theme.textFaint }}>{s.label}</div>
-                </motion.div>
+                <HoverNotes key={s.label} color={theme.accent}>
+                  <motion.div className="flex-1 min-w-[120px] p-3 border text-center"
+                    style={{ background: theme.bgCard, borderColor: theme.border, borderRadius: cardBr }}
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+                    <s.icon className="w-4 h-4 mx-auto mb-1" style={{ color: s.color }} />
+                    <div className="text-lg font-bold">{s.value}</div>
+                    <div className="text-[9px] uppercase tracking-wider" style={{ color: theme.textFaint }}>{s.label}</div>
+                  </motion.div>
+                </HoverNotes>
               ))}
             </div>
 
@@ -239,8 +313,8 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
                 {ACTIVITY.map((a, i) => (
                   <div key={i} className="flex gap-3 items-start">
                     <div className="mt-0.5 shrink-0">
-                      {a.type === "success" ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> :
-                       a.type === "error" ? <AlertTriangle className="w-3.5 h-3.5 text-red-400" /> :
+                      {a.type === "success" ? <CheckCircle2 className="w-3.5 h-3.5" style={{ color: "#4ade80" }} /> :
+                       a.type === "error" ? <AlertTriangle className="w-3.5 h-3.5" style={{ color: "#f87171" }} /> :
                        <Clock className="w-3.5 h-3.5" style={{ color: theme.accentMuted }} />}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -254,8 +328,10 @@ export default function DashboardSplit({ theme }: { theme: DashboardTheme }) {
           </div>
         </div>
 
-        <footer className="px-6 py-3 border-t text-center" style={{ borderColor: theme.border }}>
+        <footer className="px-6 py-3 border-t flex items-center justify-center gap-3" style={{ borderColor: theme.border }}>
+          <MiniWaveform color={`${theme.accent}40`} bars={4} height={10} />
           <p className="text-[10px] tracking-wider" style={{ color: theme.textFaint }}>OpsOpera · {theme.name} Theme · Dashboard Preview</p>
+          <MiniWaveform color={`${theme.accent}40`} bars={4} height={10} />
         </footer>
       </div>
     </div>

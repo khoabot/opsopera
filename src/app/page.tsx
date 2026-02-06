@@ -1,11 +1,31 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { MusicWaveform } from "@/components/MusicNotes";
 
 const NOTE_SYMBOLS = ["♩", "♪", "♫", "♬", "𝄞", "𝄢"];
+
+/* ─── Hover note burst on tiles ─────────────────────────────────── */
+interface NoteParticle { id: number; x: number; y: number; symbol: string; color: string; }
+
+function useTileNotes() {
+  const [particles, setParticles] = useState<NoteParticle[]>([]);
+  const spawn = useCallback((e: React.MouseEvent, color: string) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const count = 3 + Math.floor(Math.random() * 3);
+    const newP: NoteParticle[] = Array.from({ length: count }, (_, i) => ({
+      id: Date.now() + i + Math.random(),
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      symbol: NOTE_SYMBOLS[Math.floor(Math.random() * NOTE_SYMBOLS.length)],
+      color,
+    }));
+    setParticles((prev) => [...prev.slice(-12), ...newP]);
+  }, []);
+  return { particles, spawn };
+}
 
 const concepts = [
   {
@@ -197,6 +217,7 @@ const concepts = [
 
 export default function ConceptPicker() {
   const [hoveredConcept, setHoveredConcept] = useState<number | null>(null);
+  const { particles, spawn } = useTileNotes();
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
@@ -224,6 +245,31 @@ export default function ConceptPicker() {
             {note}
           </motion.span>
         ))}
+      </div>
+
+      {/* Global note particle layer */}
+      <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+        <AnimatePresence>
+          {particles.map((p) => (
+            <motion.span
+              key={p.id}
+              className="absolute text-lg select-none"
+              style={{ left: p.x, top: p.y, color: p.color }}
+              initial={{ opacity: 1, scale: 0.3, position: "fixed" }}
+              animate={{
+                opacity: 0,
+                scale: 1.3,
+                y: -40 - Math.random() * 30,
+                x: (Math.random() - 0.5) * 50,
+                rotate: (Math.random() - 0.5) * 50,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              {p.symbol}
+            </motion.span>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Header */}
@@ -286,7 +332,7 @@ export default function ConceptPicker() {
               <Link href={concept.href}>
                 <motion.div
                   className={`group relative rounded-2xl border ${concept.borderColor} ${concept.hoverBorder} overflow-hidden cursor-pointer transition-all`}
-                  onMouseEnter={() => setHoveredConcept(concept.id)}
+                  onMouseEnter={(e) => { setHoveredConcept(concept.id); spawn(e, concept.accentColor); }}
                   onMouseLeave={() => setHoveredConcept(null)}
                   whileHover={{ scale: 1.01 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -316,16 +362,18 @@ export default function ConceptPicker() {
                           >
                             Concept {concept.id}
                           </span>
-                          <div className="flex gap-1 text-xl opacity-40">
+                          <div className="flex gap-1.5 text-xl">
                             {concept.notes.map((n, j) => (
                               <motion.span
                                 key={j}
+                                className="inline-block"
+                                style={{ opacity: hoveredConcept === concept.id ? 0.8 : 0.35 }}
                                 animate={
                                   hoveredConcept === concept.id
-                                    ? { y: [0, -5, 0], rotate: [0, 10, -10, 0] }
-                                    : {}
+                                    ? { y: [0, -8, 2, -5, 0], rotate: [0, 15, -10, 8, 0], scale: [1, 1.2, 1, 1.15, 1] }
+                                    : { y: 0, rotate: 0, scale: 1 }
                                 }
-                                transition={{ duration: 1, delay: j * 0.2 }}
+                                transition={{ duration: 1.2, delay: j * 0.15, ease: "easeInOut" }}
                               >
                                 {n}
                               </motion.span>

@@ -449,7 +449,7 @@ export default function SynthwaveConductor() {
             The future of business operations is here. And it sounds amazing.
           </p>
           <button
-            onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); }}
+            onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); setTimeout(() => window.location.href = '/concept4/dashboard', 500); }}
             className="group px-10 py-5 bg-gradient-to-r from-[#FF2D78] via-[#FF8C42] to-[#00D4FF] text-white font-black text-xl font-mono rounded hover:shadow-[0_0_60px_rgba(255,45,120,0.3)] transition-all"
           >
             JACK IN

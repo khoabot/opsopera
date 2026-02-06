@@ -464,6 +464,7 @@ export default function OpeningNight() {
                   onClick={() => {
                     if (!audio.ready) audio.init();
                     audio.playMelody(MELODIES.odeToJoy.slice(0, 8), "bell", 1.2);
+                    setTimeout(() => window.location.href = '/concept10/dashboard', 1500);
                   }}
                 >
                   Begin the Performance <ArrowRight className="inline ml-2 w-6 h-6" />

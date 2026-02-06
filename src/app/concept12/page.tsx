@@ -358,6 +358,7 @@ export default function PrimaDonna() {
               onClick={() => {
                 if (!audio.ready) audio.init();
                 audio.playChord(["C3","E3","G3","C4","E4"], 3, "pad");
+                setTimeout(() => window.location.href = '/concept12/dashboard', 800);
               }}
             >
               Take Your Seat

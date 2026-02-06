@@ -751,12 +751,12 @@ export default function SheetMusic() {
             Join thousands of teams who&apos;ve turned their chaotic workflows into
             something beautiful.
           </p>
-          <button className="group px-10 py-5 bg-sheet-accent text-white font-bold text-xl rounded-full hover:bg-sheet-accent/90 transition-all shadow-lg shadow-sheet-accent/20 hover:shadow-xl"
+          <a href="/concept3/dashboard" className="group inline-flex items-center px-10 py-5 bg-sheet-accent text-white font-bold text-xl rounded-full hover:bg-sheet-accent/90 transition-all shadow-lg shadow-sheet-accent/20 hover:shadow-xl"
             style={{ fontFamily: "Georgia, serif" }}
           >
             Start for free
             <ArrowRight className="inline ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </motion.div>
       </section>
 

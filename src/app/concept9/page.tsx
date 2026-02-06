@@ -412,6 +412,7 @@ export default function TheMosaic() {
                       e.stopPropagation();
                       if (!audio.ready) audio.init();
                       audio.playSuccess();
+                      setTimeout(() => window.location.href = '/concept9/dashboard', 500);
                     }}
                   >
                     Start free <ArrowRight className="inline w-4 h-4 ml-1" />

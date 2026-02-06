@@ -359,7 +359,7 @@ export default function TheScore() {
                     animate={currentMeasure === mIdx ? { opacity: 1 } : { opacity: 0.3 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); }}
+                    onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); setTimeout(() => window.location.href = '/concept8/dashboard', 500); }}
                   >
                     Begin the Performance
                     <ArrowRight className="inline ml-2 w-5 h-5" />

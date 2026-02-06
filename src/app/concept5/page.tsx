@@ -520,7 +520,7 @@ export default function ConcertHall() {
           <button
             className="group px-10 py-5 bg-amber-400 text-[#0a0808] font-bold text-xl rounded hover:bg-amber-300 transition-all hover:shadow-[0_0_50px_rgba(255,215,0,0.2)]"
             style={{ fontFamily: "Georgia, serif" }}
-            onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); }}
+            onClick={() => { if (!audio.ready) audio.init(); audio.playSuccess(); setTimeout(() => window.location.href = '/concept5/dashboard', 500); }}
           >
             Enter the Hall
             <ArrowRight className="inline ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />

@@ -548,10 +548,10 @@ export default function JazzLounge() {
           <p className="text-white/50 text-lg mb-8 max-w-xl mx-auto">
             Join the movement. Let AI compose your workflows while you focus on what matters.
           </p>
-          <button className="group px-10 py-5 bg-gradient-to-r from-jazz-neon-pink via-jazz-purple to-jazz-neon-blue text-white font-black text-xl rounded-full hover:shadow-[0_0_60px_rgba(107,33,168,0.4)] transition-all">
+          <a href="/concept2/dashboard" className="group inline-flex items-center px-10 py-5 bg-gradient-to-r from-jazz-neon-pink via-jazz-purple to-jazz-neon-blue text-white font-black text-xl rounded-full hover:shadow-[0_0_60px_rgba(107,33,168,0.4)] transition-all">
             Start Free — No Credit Card
             <ArrowRight className="inline ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </motion.div>
       </section>
 

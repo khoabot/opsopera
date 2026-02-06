@@ -428,7 +428,7 @@ export default function PlayfulOverture() {
             transition={{ delay: 0.8 }}
           >
             <motion.button
-              onClick={triggerConfetti}
+              onClick={() => { triggerConfetti(); setTimeout(() => window.location.href = '/concept6/dashboard', 800); }}
               className="group px-8 py-4 bg-[#FF6B6B] text-white font-black text-lg rounded-full shadow-lg shadow-[#FF6B6B]/30 hover:shadow-xl hover:shadow-[#FF6B6B]/40 transition-shadow"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

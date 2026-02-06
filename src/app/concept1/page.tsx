@@ -499,12 +499,12 @@ export default function GrandOpera() {
             Join hundreds of businesses whose operations have earned
             rave reviews since switching to OpsOpera.
           </p>
-          <button className="group px-10 py-5 bg-opera-gold text-opera-velvet font-bold text-xl rounded hover:bg-opera-gold-light transition-all hover:shadow-[0_0_50px_rgba(212,175,55,0.3)]"
+          <a href="/concept1/dashboard" className="group inline-flex items-center px-10 py-5 bg-opera-gold text-opera-velvet font-bold text-xl rounded hover:bg-opera-gold-light transition-all hover:shadow-[0_0_50px_rgba(212,175,55,0.3)]"
             style={{ fontFamily: "Georgia, serif" }}
           >
             Take Center Stage
             <ArrowRight className="inline ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </motion.div>
       </section>
 

@@ -375,14 +375,15 @@ export default function ThePlaybill() {
               The performance begins the moment you step inside.
             </p>
 
-            <motion.button
-              className="px-10 py-4 bg-[#D4AF37] text-[#2C1810] font-bold text-lg rounded-sm hover:bg-[#F0D060] transition-all"
+            <motion.a
+              href="/concept11/dashboard"
+              className="inline-flex items-center px-10 py-4 bg-[#D4AF37] text-[#2C1810] font-bold text-lg rounded-sm hover:bg-[#F0D060] transition-all"
               style={{ fontFamily: "Georgia, serif" }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
               Enter the Opera House <ArrowRight className="inline ml-2 w-5 h-5" />
-            </motion.button>
+            </motion.a>
 
             <OrnamentalDivider />
 

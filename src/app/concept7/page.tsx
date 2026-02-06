@@ -42,6 +42,7 @@ const TRACKS = [
     title: "Pick Your Pressing",
     content: "Single (Free) — 5 automations, 1K runs/mo\n\nLP ($49/mo) — Unlimited automations, 50K runs, team features\n\nBox Set ($199/mo) — Everything unlimited, dedicated support, custom AI",
     cta: "Start spinning →",
+    href: "/concept7/dashboard",
   },
 ];
 
@@ -252,7 +253,7 @@ function ContentPanel({
                 style={{ backgroundColor: track.color, color: "#0a0808" }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={onPlayAudio}
+                onClick={() => { onPlayAudio(); if ((track as any).href) setTimeout(() => window.location.href = (track as any).href, 500); }}
               >
                 {track.cta}
               </motion.button>

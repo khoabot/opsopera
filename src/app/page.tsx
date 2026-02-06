@@ -55,6 +55,52 @@ const concepts = [
     tags: ["Warm", "Friendly", "Delightful"],
     darkText: true,
   },
+  {
+    id: 4,
+    title: "Synthwave Conductor",
+    subtitle: "Retro-Futuristic & Electric",
+    description:
+      "80s retrowave grids, CRT scanlines, glitch text, and a full synth arpeggiator that plays in your browser. Neon sun, mountain silhouettes, and terminal-style demos. Has sound — click 'Drop the Beat' for a live synth loop, or 'Play Mozart' for Eine Kleine Nachtmusik.",
+    href: "/concept4",
+    gradient: "from-[#1A1A3E] to-[#0B0B1A]",
+    accentColor: "#00D4FF",
+    textColor: "text-white",
+    borderColor: "border-[#00D4FF]/30",
+    hoverBorder: "hover:border-[#00D4FF]/60",
+    notes: ["♫", "♬"],
+    tags: ["Synthwave", "Audio", "Retro", "Interactive"],
+  },
+  {
+    id: 5,
+    title: "The Concert Hall",
+    subtitle: "Immersive & Classical",
+    description:
+      "A dark, spotlight-lit concert hall with chandelier sparkles and cursor-following light effects. Features an interactive piano keyboard you can actually play, plus auto-play buttons for Für Elise and Ode to Joy — all synthesized in real-time with Web Audio.",
+    href: "/concept5",
+    gradient: "from-[#1a1008] to-[#0a0808]",
+    accentColor: "#D4AF37",
+    textColor: "text-[#f5f0e0]",
+    borderColor: "border-[#D4AF37]/30",
+    hoverBorder: "hover:border-[#D4AF37]/60",
+    notes: ["𝄞", "♪"],
+    tags: ["Classical", "Piano", "Immersive", "Audio"],
+  },
+  {
+    id: 6,
+    title: "Playful Overture",
+    subtitle: "Bold, Bouncy & Interactive",
+    description:
+      "Memphis-inspired design with geometric shapes, confetti bursts, and spring animations everywhere. Features a working step sequencer / beat machine you can compose with, a music box melody player, and sound effects on hover. The most interactive of all six.",
+    href: "/concept6",
+    gradient: "from-[#FFF5F0] to-[#FFFDF7]",
+    accentColor: "#FF6B6B",
+    textColor: "text-gray-800",
+    borderColor: "border-[#FF6B6B]/30",
+    hoverBorder: "hover:border-[#FF6B6B]/60",
+    notes: ["♩", "♫"],
+    tags: ["Playful", "Sequencer", "Audio", "Memphis"],
+    darkText: true,
+  },
 ];
 
 export default function ConceptPicker() {
@@ -127,9 +173,10 @@ export default function ConceptPicker() {
           transition={{ delay: 1 }}
         >
           <p className="text-white/40 leading-relaxed">
-            Three brand concepts for an AI-powered B2B SaaS that orchestrates
+            Six brand concepts for an AI-powered B2B SaaS that orchestrates
             business operations. Each takes the &quot;ops + opera&quot; theme in a different
-            creative direction. Click any card to explore the full experience.
+            creative direction. Concepts 4–6 feature real synthesized audio —
+            play piano, trigger beats, and hear classical melodies.
           </p>
         </motion.div>
       </header>
@@ -250,7 +297,7 @@ export default function ConceptPicker() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 py-8 px-6 text-center">
         <p className="text-white/20 text-sm">
-          OpsOpera Brand Exploration — Three concepts, one vision.
+          OpsOpera Brand Exploration — Six concepts, one vision. 🔊 Concepts 4–6 have sound!
         </p>
         <div className="mt-3 flex justify-center gap-3 text-white/10 text-xl">
           {["♩", "♪", "♫", "♬", "𝄞"].map((n, i) => (
